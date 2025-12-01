@@ -5,7 +5,7 @@ shopt -s inherit_errexit
 url='https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/accelerated-domains.china.conf'
 new_pac=$(mktemp)
 
-content=$(curl -sS --fail-early --fail-with-body "$url" | sed -nE 's!^server=/([-a-z0-9.]+)/[0-9.]+$!\1!p' | paste -sd ' ')
+content=$(curl -sS --fail-early --fail-with-body "$url" | sed -nE 's!^server=/(([-a-z0-9]+\.)*[a-z]+)/[0-9.]+$!\1!p' | paste -sd ' ')
 {
     echo -n "const domains = new Set('"
     echo -n "$content"
