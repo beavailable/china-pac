@@ -3,5 +3,7 @@ set -e
 
 . /usr/share/debconf/confmodule
 
-db_input high china-pac/proxy || true
-db_go
+if [ "$1" = 'reconfigure' ]; then
+    db_input high china-pac/proxy || true
+    db_go
+fi
