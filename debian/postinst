@@ -1,0 +1,11 @@
+#!/bin/sh
+set -e
+
+. /usr/share/debconf/confmodule
+
+case "$1" in
+    configure)
+        db_get china-pac/proxy
+        sed -i -E "s/^(\\s+return ')([^D].+)(';)$/\\1$RET\\3/" /var/lib/china-pac/proxy.pac
+        ;;
+esac

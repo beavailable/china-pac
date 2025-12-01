@@ -1,0 +1,36 @@
+name: Update
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '10 * * * *'
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+      - name: Update
+        run: ./update.sh
+      - name: Set up environment variables
+        run: sed -nE '1s/^.+\((\S+)\).+$/LATEST_VERSION=\1/p' debian/changelog >> $GITHUB_ENV
+      - name: Commit
+        id: commit
+        uses: stefanzweifel/git-auto-commit-action@v7
+        with:
+          tag_name: ${{ env.LATEST_VERSION }}
+      - name: Build source package
+        if: ${{ steps.commit.outputs.changes_detected == 'true' }}
+        run: dpkg-source -b .
+      - name: Upload to OBS
+        if: ${{ steps.commit.outputs.changes_detected == 'true' }}
+        uses: beavailable/obs-upload@main
+        with:
+          username: beavailable
+          password: ${{ secrets.OBS_PASSWORD }}
+          project: home:beavailable
+          package: china-pac
+          files: ../china-pac_${{ env.LATEST_VERSION }}.dsc ../china-pac_${{ env.LATEST_VERSION }}.tar.xz
