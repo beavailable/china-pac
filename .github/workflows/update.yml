@@ -24,10 +24,10 @@ jobs:
           tag_name: ${{ env.LATEST_VERSION }}
           commit_message: Release ${{ env.LATEST_VERSION }}
       - name: Build source package
-        if: ${{ steps.commit.outputs.changes_detected == 'true' }}
+        if: ${{ steps.commit.outputs.commit_hash != '' }}
         run: dpkg-source -b .
       - name: Upload to OBS
-        if: ${{ steps.commit.outputs.changes_detected == 'true' }}
+        if: ${{ steps.commit.outputs.commit_hash != '' }}
         uses: beavailable/obs-upload@main
         with:
           username: beavailable
