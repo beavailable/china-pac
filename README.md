@@ -1,5 +1,5 @@
 # china-pac
-This is a fast PAC specifically for Chinese users.
+This is a fast PAC specifically designed for Chinese users.
 
 It'll automatically sync all Chinese domains from [dnsmasq-china-list](https://github.com/felixonmars/dnsmasq-china-list) and rebuild the package (if there's any updates) every one hour.
 
