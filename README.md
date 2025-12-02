@@ -11,6 +11,8 @@ The PAC will return:
 You can also add extra domains in `/etc/china-pac/extra.list`.  
 But remember to run `sudo dpkg-reconfigure china-pac` after modifying any configuration files.
 
+The PAC file is located at `/var/lib/china-pac/proxy.pac`.
+
 **Note** that the chromium browser doesn't load the PAC if its file size is larger than 1M, while [ungoogled-chromium](https://github.com/ungoogled-software/ungoogled-chromium) has removed that limit.
 
 ## Installation
