@@ -3,22 +3,15 @@ set -euo pipefail
 shopt -s inherit_errexit
 
 url='https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/accelerated-domains.china.conf'
-new_pac=$(mktemp)
+new_list=$(mktemp)
 
-content=$(curl -sS --fail-early --fail-with-body "$url" | sed -nE 's!^server=/(([-a-z0-9]+\.)*[a-z]+)/[0-9.]+$!\1!p' | paste -sd ' ')
-{
-    echo -n "const domains = new Set('"
-    echo -n "$content"
-    echo "'.split(' '));"
-    tail -n +2 proxy.pac
-} >$new_pac
-
-if cmp -s $new_pac proxy.pac; then
-    rm $new_pac
+curl -sS --fail-early --fail-with-body "$url" | sed -nE 's!^server=/(([-a-z0-9]+\.)*[a-z]+)/[0-9.]+$!\1!p' >$new_list
+if cmp -s $new_list domains.list; then
+    rm $new_list
     exit
 fi
 
-mv $new_pac proxy.pac
+mv $new_list domains.list
 
 changelog=$(cat debian/changelog)
 {

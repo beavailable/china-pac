@@ -1,11 +1,13 @@
 #!/bin/sh
 set -e
 
-. /usr/share/debconf/confmodule
-
 case "$1" in
     configure)
-        db_get china-pac/proxy
-        sed -i -E "s/^(\\s+return ')([^D].+)(';)$/\\1$RET\\3/" /var/lib/china-pac/proxy.pac
+        {
+            echo -n "const domains = new Set('"
+            echo -n "$(sed -nE '/^[^#]/p' /etc/china-pac/domains.list /etc/china-pac/extra.list | paste -sd ' ')"
+            echo "'.split(' ');"
+            tail +2 /usr/share/china-pac/proxy.pac.template | sed -E "s/TEMPLATE_PROXY/$(cat /etc/china-pac/proxy)/"
+        } >/var/lib/china-pac/proxy.pac
         ;;
 esac

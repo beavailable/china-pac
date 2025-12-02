@@ -1,0 +1,18 @@
+const domains = new Set(''.split(' '));
+
+function FindProxyForURL(url, host) {
+    if (host.indexOf(':') !== -1) {
+        return 'DIRECT';
+    }
+    if (host.charAt(host.length - 1) <= '9') {
+        return 'DIRECT';
+    }
+    let idx = host.length;
+    do {
+        idx = host.lastIndexOf('.', idx - 1);
+        if (domains.has(host.substring(idx + 1))) {
+            return 'DIRECT';
+        }
+    } while (idx >= 0);
+    return 'TEMPLATE_PROXY';
+}
