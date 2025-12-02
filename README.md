@@ -11,7 +11,6 @@ The PAC will return:
 **Note** that the chromium browser doesn't load the PAC if its file size is larger than 1M, while [ungoogled-chromium](https://github.com/ungoogled-software/ungoogled-chromium) has removed that limit.
 
 ## Installation
-
 ### Debian & Ubuntu
 Install via the OBS repo (see [obs-repo](https://github.com/beavailable/obs-repo) for setup).
 
@@ -21,8 +20,11 @@ Install via the OBS repo (see [obs-repo](https://github.com/beavailable/obs-repo
 ```
 
 ## Configuration
-
 You can change the default proxy in `proxy` file, or add extra domains in `extra.list` file.
 
 For `Debian & Ubuntu` users, all the configuration files are in `/etc/china-pac/`.  
-Be sure to run `sudo dpkg-reconfigure china-pac` after modifying any configuration files.
+Be sure to run `sudo dpkg-reconfigure china-pac` after modifying any configuration files.  
+The generated PAC file is located at `/var/lib/china-pac/proxy.pac`.
+
+## Acknowledgements
+This project uses data from [dnsmasq-china-list](https://github.com/felixonmars/dnsmasq-china-list). Thanks to its creators and contributors for making it available.
