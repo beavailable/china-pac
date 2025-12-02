@@ -8,7 +8,7 @@ The PAC will return:
 - "DIRECT" if the host is a Chinese domain
 - a proxy (default `SOCKS 127.0.0.1:1080`) which can be configured by run `sudo dpkg-reconfigure china-pac`
 
-**Note** that the chromium browser doesn't load the PAC if its file size is more than 1M, while [ungoogled-chromium](https://github.com/ungoogled-software/ungoogled-chromium) has removed that limit.
+**Note** that the chromium browser doesn't load the PAC if its file size is larger than 1M, while [ungoogled-chromium](https://github.com/ungoogled-software/ungoogled-chromium) has removed that limit.
 
 ## Installation
 
