@@ -12,4 +12,6 @@ Architecture: all
 Multi-Arch: foreign
 Depends:
  ${misc:Depends},
+Suggests:
+ share,
 Description: China PAC
