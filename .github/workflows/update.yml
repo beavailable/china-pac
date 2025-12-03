@@ -23,9 +23,6 @@ jobs:
         with:
           tag_name: ${{ env.LATEST_VERSION }}
           commit_message: Release ${{ env.LATEST_VERSION }}
-      - name: Build source package
-        if: ${{ steps.commit.outputs.commit_hash != '' }}
-        run: dpkg-source -b .
       - name: Upload to OBS
         if: ${{ steps.commit.outputs.commit_hash != '' }}
         uses: beavailable/obs-upload@main
@@ -34,4 +31,4 @@ jobs:
           password: ${{ secrets.OBS_PASSWORD }}
           project: home:beavailable
           package: china-pac
-          files: ../china-pac_${{ env.LATEST_VERSION }}.dsc ../china-pac_${{ env.LATEST_VERSION }}.tar.xz
+          type: deb
