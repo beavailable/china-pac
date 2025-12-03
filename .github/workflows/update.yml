@@ -14,17 +14,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
       - name: Update
+        id: update
         run: ./update.sh
-      - name: Set up environment variables
-        run: sed -nE '1s/^.+\((\S+)\).+$/LATEST_VERSION=\1/p' debian/changelog >> $GITHUB_ENV
-      - name: Commit
-        id: commit
-        uses: stefanzweifel/git-auto-commit-action@v7
-        with:
-          tag_name: ${{ env.LATEST_VERSION }}
-          commit_message: Release ${{ env.LATEST_VERSION }}
       - name: Upload to OBS
-        if: ${{ steps.commit.outputs.commit_hash != '' }}
+        if: ${{ steps.update.outputs.release == 'true' }}
         uses: beavailable/obs-upload@main
         with:
           username: beavailable

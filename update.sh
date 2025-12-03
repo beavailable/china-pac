@@ -13,9 +13,10 @@ fi
 
 mv $new_list default.list
 
+version=$(date '+%y.%m.%d.%H')
 changelog=$(cat debian/changelog)
 {
-    echo "china-pac ($(date '+%y.%m.%d.%H')) unstable; urgency=medium"
+    echo "china-pac ($version) unstable; urgency=medium"
     echo
     echo '  * New release.'
     echo
@@ -23,3 +24,11 @@ changelog=$(cat debian/changelog)
     echo
     echo "$changelog"
 } >debian/changelog
+
+user='github-actions[bot]'
+email='41898282+github-actions[bot]@users.noreply.github.com'
+git -c user.name="$user" -c user.email="$email" commit -am "Release $version" --author "$GITHUB_ACTOR <$GITHUB_ACTOR_ID+$GITHUB_ACTOR@users.noreply.github.com>"
+git -c user.name="$user" -c user.email="$email" tag "$version"
+git push origin --follow-tags --atomic
+
+echo "release=true" >>$GITHUB_OUTPUT
