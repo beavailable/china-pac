@@ -5,7 +5,7 @@ case "$1" in
     configure)
         {
             echo -n "const domains = new Set('"
-            echo -n "$(sed -nE '/^[^#]/p' /etc/china-pac/domains.list /etc/china-pac/extra.list | paste -sd ' ')"
+            echo -n "$(sed -nE '/^[^#]/p' /etc/china-pac/default.list /etc/china-pac/extra.list | paste -sd ' ')"
             echo "'.split(' '));"
             tail +2 /usr/share/china-pac/proxy.pac.template | sed -E "s/TEMPLATE_PROXY/$(cat /etc/china-pac/proxy)/"
         } >/var/lib/china-pac/proxy.pac

@@ -6,12 +6,12 @@ url='https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/acc
 new_list=$(mktemp)
 
 curl -sS --fail-early --fail-with-body "$url" | sed -nE 's!^server=/(([-a-z0-9]+\.)*[a-z]+)/[0-9.]+$!\1!p' >$new_list
-if cmp -s $new_list domains.list; then
+if cmp -s $new_list default.list; then
     rm $new_list
     exit
 fi
 
-mv $new_list domains.list
+mv $new_list default.list
 
 changelog=$(cat debian/changelog)
 {
