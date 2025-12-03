@@ -4,6 +4,7 @@
 
 override_dh_auto_install:
 	dh_auto_install
+	dh_install generate.sh usr/lib/china-pac/
 	dh_install proxy.pac.template usr/share/china-pac/
 	dh_install proxy etc/china-pac/
 	dh_install default.list etc/china-pac/
