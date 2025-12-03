@@ -12,7 +12,7 @@ else
     PAC_DIR='.'
 fi
 
-echo "Generating file $PAC_DIR/proxy.pac"
+echo "Generating $PAC_DIR/proxy.pac"
 
 {
     echo -n "const domains = new Set('"
