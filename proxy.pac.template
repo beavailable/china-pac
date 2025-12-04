@@ -1,6 +1,9 @@
 const domains = new Set(''.split(' '));
 
 function FindProxyForURL(url, host) {
+    if (isPlainHostName(host)) {
+        return 'DIRECT';
+    }
     if (host.indexOf(':') !== -1) {
         return 'DIRECT';
     }
