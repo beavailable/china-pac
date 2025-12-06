@@ -16,7 +16,7 @@ echo "Generating $PAC_DIR/proxy.pac"
 
 {
     echo -n "const domains = new Set('"
-    echo -n "$(sed -nE -e '/^#/d' -e '/^\S+$/p' $CONFIG_DIR/{default,extra}.list | paste -sd ' ')"
+    echo -n "$(sed -nE -e '/^#/d' -e '/^\S+$/p' $CONFIG_DIR/{default,extra}.list | LC_ALL=C sort -u | paste -sd ' ')"
     echo "'.split(' '));"
     tail +2 $TEMPLATE_DIR/proxy.pac.template | sed -E "s/TEMPLATE_PROXY/$(cat $CONFIG_DIR/proxy)/"
 } >$PAC_DIR/proxy.pac
