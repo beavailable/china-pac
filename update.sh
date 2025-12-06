@@ -13,6 +13,8 @@ fi
 
 mv $new_list default.list
 
+[[ -z "${CI:-}" ]] && exit
+
 version=$(date '+%y.%m.%d.%H')
 changelog=$(cat debian/changelog)
 {
