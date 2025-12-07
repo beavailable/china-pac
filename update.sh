@@ -15,10 +15,16 @@ mv $new_list default.list
 
 [[ -z "${CI:-}" ]] && exit
 
-version=$(date '+%y.%m.%d.%H')
+version=$(sed -nE '1s/^\S+ \((\S+)\) .+$/\1/p' debian/changelog)
+new_version=$(date '+%y.%m')
+if [[ "$version" == "$new_version"* ]]; then
+    new_version="$new_version.$((${version##*.} + 1))"
+else
+    new_version="$new_version.0"
+fi
 changelog=$(cat debian/changelog)
 {
-    echo "china-pac ($version) unstable; urgency=medium"
+    echo "china-pac ($new_version) unstable; urgency=medium"
     echo
     echo '  * New release.'
     echo
@@ -29,8 +35,8 @@ changelog=$(cat debian/changelog)
 
 user='github-actions[bot]'
 email='41898282+github-actions[bot]@users.noreply.github.com'
-git -c user.name="$user" -c user.email="$email" commit -am "Release $version" --author "$GITHUB_ACTOR <$GITHUB_ACTOR_ID+$GITHUB_ACTOR@users.noreply.github.com>"
-git -c user.name="$user" -c user.email="$email" tag "$version"
+git -c user.name="$user" -c user.email="$email" commit -am "Release $new_version" --author "$GITHUB_ACTOR <$GITHUB_ACTOR_ID+$GITHUB_ACTOR@users.noreply.github.com>"
+git -c user.name="$user" -c user.email="$email" tag "$new_version"
 git push origin --follow-tags --atomic
 
 echo "release=true" >>$GITHUB_OUTPUT
