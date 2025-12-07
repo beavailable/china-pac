@@ -2,8 +2,13 @@ name: Update
 
 on:
   workflow_dispatch:
+    inputs:
+      force_release:
+        required: false
+        type: boolean
+        default: false
   schedule:
-    - cron: '10 * * * *'
+    - cron: '38 * * * *'
 
 jobs:
   update:
@@ -16,6 +21,8 @@ jobs:
       - name: Update
         id: update
         run: ./update.sh
+        env:
+          CHINA_PAC_FORCE_RELEASE: ${{ inputs.force_release }}
       - name: Upload to OBS
         if: ${{ steps.update.outputs.release == 'true' }}
         uses: beavailable/obs-upload@main
