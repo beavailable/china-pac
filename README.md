@@ -4,6 +4,7 @@ This is a fast PAC specifically designed for Chinese users.
 It'll automatically sync all Chinese domains from [dnsmasq-china-list](https://github.com/felixonmars/dnsmasq-china-list) and rebuild the package (if there's any updates) every one hour.
 
 The PAC returns:
+- "DIRECT" if the host is a plain hostname
 - "DIRECT" if the host is an ipv4/ipv6 address
 - "DIRECT" if the host is a Chinese domain
 - a proxy (default `SOCKS 127.0.0.1:1080`) otherwise
