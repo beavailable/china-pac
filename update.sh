@@ -36,7 +36,7 @@ changelog=$(cat debian/changelog)
 user='github-actions[bot]'
 email='41898282+github-actions[bot]@users.noreply.github.com'
 git -c user.name="$user" -c user.email="$email" commit -am "Release $new_version" --author "$GITHUB_ACTOR <$GITHUB_ACTOR_ID+$GITHUB_ACTOR@users.noreply.github.com>"
-git -c user.name="$user" -c user.email="$email" tag "$new_version"
+git -c user.name="$user" -c user.email="$email" tag "$new_version" -am "Release $new_version"
 git push origin --follow-tags --atomic
 
 echo "release=true" >>$GITHUB_OUTPUT
