@@ -20,5 +20,3 @@ echo "Generating $PAC_DIR/proxy.pac"
     echo "'.split(' '));"
     tail +2 $TEMPLATE_DIR/proxy.pac.template | sed -E "s/TEMPLATE_PROXY/$(cat $CONFIG_DIR/proxy)/"
 } >$PAC_DIR/proxy.pac
-
-echo 'Done'
