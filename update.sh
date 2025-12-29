@@ -2,10 +2,26 @@
 set -euo pipefail
 shopt -s inherit_errexit
 
+# $@: arguments
+_curl() {
+    local retries
+    retries=0
+    while true; do
+        if curl -sSL --fail-early --fail-with-body --connect-timeout 10 "$@"; then
+            break
+        fi
+        ((++retries))
+        if [[ $retries -ge 3 ]]; then
+            return 1
+        fi
+        sleep $((retries * 5))
+    done
+}
+
 url='https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/accelerated-domains.china.conf'
 new_list=$(mktemp)
 
-curl -sS --fail-early --fail-with-body "$url" | sed -nE 's!^server=/(([-a-z0-9]+\.)*[a-z]+)/[0-9.]+$!\1!p' | LC_ALL=C sort -u >$new_list
+_curl "$url" | sed -nE 's!^server=/(([-a-z0-9]+\.)*[a-z]+)/[0-9.]+$!\1!p' | LC_ALL=C sort -u >$new_list
 if [[ "${CHINA_PAC_FORCE_RELEASE:-}" != 'true' ]] && cmp -s $new_list default.list; then
     rm $new_list
     exit
