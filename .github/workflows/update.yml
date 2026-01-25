@@ -22,7 +22,7 @@ jobs:
         id: update
         run: ./update.sh
         env:
-          CHINA_PAC_FORCE_RELEASE: ${{ inputs.force_release }}
+          ENV_FORCE_RELEASE: ${{ inputs.force_release }}
       - name: Upload to OBS
         if: ${{ steps.update.outputs.release == 'true' }}
         uses: beavailable/obs-upload@main
